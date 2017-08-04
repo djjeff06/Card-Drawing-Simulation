@@ -90,6 +90,11 @@ public class Driver {
         cardList.add(new Card("King",13,2));
         cardList.add(new Card("King",13,3));
         
+        try{
+            Controller.RConnector.connect();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         JFrame start = FrameManager.getStartFrame();
         start.setVisible(true);
 
