@@ -9,31 +9,30 @@ package View;
  *
  * @author msi
  */
-
 import Model.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainPage extends JFrame implements ActionListener{
+public class DesiredTotal extends JFrame implements ActionListener{
     
-    private JLabel label1 = new JLabel("Enter number of cards to be drawn (1 to 5):");
+    private JLabel lbl = new JLabel("Desired Total Drawn in a Trial:");
     private JTextField input=new JTextField("");
     private JButton btnInput = new JButton("Enter");
     
-    public MainPage(){
+    public DesiredTotal(){
         
-        this.setTitle("Main Page");
-        this.setSize(500,150);
+        this.setTitle("DesiredTotal");
+        this.setSize(400,150);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setVisible(true);
         
-        label1.setBounds(10,0,250,30);
-        input.setBounds(270, 5, 40, 20);
-        btnInput.setBounds(320,5,70,20);
+        lbl.setBounds(10,0,180,30);
+        input.setBounds(200, 5, 40, 20);
+        btnInput.setBounds(250,5,70,20);
         btnInput.addActionListener(this);
         this.setLayout(null);
-        this.add(label1);
+        this.add(lbl);
         this.add(input);
         this.add(btnInput);
         
@@ -42,19 +41,17 @@ public class MainPage extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
         if(e.getSource() == btnInput){
-            
-            //do something
             if(Integer.parseInt(input.getText().toString()) > 5 || Integer.parseInt(input.getText().toString()) < 1){
                 JOptionPane.showMessageDialog(this,
-                    "Number of cards to be drawn must be from 1 to 5!",
+                    Card.drawCards,
                     "Wrong Input",JOptionPane.ERROR_MESSAGE);
             }
             
             else{
-                Card.drawCards = Integer.parseInt(input.getText().toString());
-                FrameManager.getAnotherFrame("ExperimentSelection");
+                Card.nTrials = Integer.parseInt(input.getText().toString());
+                //do experiments and save in txt file
+                //FrameManager.getAnotherFrame("ExperimentSelection");
             }
-            
         }
         
     }

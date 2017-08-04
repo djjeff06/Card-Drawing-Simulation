@@ -11,13 +11,15 @@
 
 import java.util.ArrayList;
 import Model.Card;
-import View.MainPage;
+import View.*;
+import javax.swing.JFrame;
 
 public class Driver {
 
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
         // TODO code application logic here
         
@@ -88,8 +90,15 @@ public class Driver {
         cardList.add(new Card("King",13,2));
         cardList.add(new Card("King",13,3));
         
-        MainPage mainPage= new MainPage();
-        
+        JFrame start = FrameManager.getStartFrame();
+        start.setVisible(true);
+
+        //want another window
+        //JFrame another = FrameManager.getAnotherFrame();
+            //another.setVisible(true);
+
+        //oh, doenst want start anymore
+        //start.setVisible(false);
         
     }
     
