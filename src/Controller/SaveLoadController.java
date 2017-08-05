@@ -15,7 +15,41 @@ import java.io.*;
 
 public class SaveLoadController {
     
-    public static boolean saveLog(int[][] list1, int[][] list2){
+    public static boolean saveLog1DArray(int[] list1, int[] list2){
+        
+        boolean done = false;
+        BufferedWriter writer = null;
+        try{
+            writer = new BufferedWriter( new FileWriter("log.txt"));
+            writer.append("WITH_REPLACEMENT");
+            writer.newLine();
+            for(int i=0; i<list1.length; i++){
+                writer.append(list1[i]+"");
+                writer.newLine();
+            }
+            writer.append("WITHOUT_REPLACEMENT");
+            writer.newLine();
+            if(list2 != null){
+                for(int i=0; i<list2.length; i++){
+                    writer.append(list2[i]+" ");
+                    writer.newLine();
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try{
+                if ( writer != null)
+                    writer.close( );
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return done;
+        
+    }
+    
+    public static boolean saveLog2DArray(int[][] list1, int[][] list2){
         
         boolean done = false;
         BufferedWriter writer = null;
@@ -31,11 +65,13 @@ public class SaveLoadController {
             }
             writer.append("WITHOUT_REPLACEMENT");
             writer.newLine();
-            for(int i=0; i<list1.length; i++){
-                for(int j=0; j<list1[i].length; j++){
-                    writer.append(list1[i][j]+" ");
+            if(list2 != null){
+                for(int i=0; i<list2.length; i++){
+                    for(int j=0; j<list2[i].length; j++){
+                        writer.append(list2[i][j]+" ");
+                    }
+                    writer.newLine();
                 }
-                writer.newLine();
             }
         }catch(Exception e){
             e.printStackTrace();

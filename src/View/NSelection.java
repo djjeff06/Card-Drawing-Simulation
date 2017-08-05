@@ -58,8 +58,26 @@ public class NSelection extends JFrame implements ActionListener{
                 int[][] result1 = new int[Card.nTrials][Card.drawCards];
                 int[][] result2 = new int[Card.nTrials][Card.drawCards];
                 try{
-                    result1 = Controller.RConnector.withReplacement();
-                    result2 = Controller.RConnector.withoutReplacement();
+                    if(Card.experiment == 0){
+                        //binomial
+                        //result1 = Controller.RConnector.binomialWithReplacement();
+                        //result2 = Controller.RConnector.binomialWithoutReplacement();
+                    }
+                    else if(Card.experiment == 1){
+                        //negative binomial
+                        //result1 = Controller.RConnector.binomialWithReplacement();
+                        //result2 = null;
+                    }
+                    else if(Card.experiment == 2){
+                        //hypergeometric
+                    }
+                    else if(Card.experiment == 3){
+                        //multinomial
+                    }
+                    else{
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = Controller.RConnector.withoutReplacement();
+                    }
                     SaveLoadController.saveLog(result1, result2);
                 }catch(Exception err){
                     err.printStackTrace();

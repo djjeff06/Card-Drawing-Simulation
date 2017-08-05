@@ -76,4 +76,115 @@ import java.io.FileNotFoundException;
      System.out.println("Session Closed");  
      return result;
    }  
+   
+   public static int[] binomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[] result = new int[Card.nTrials];
+     int i=0,j=0;
+     int[] temp = new int[Card.drawCards];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       while(i<Card.nTrials){
+        REXP exp = c.eval("rbinom(1,"+Card.drawCards+",0.5)");
+        result[i] = exp.asInteger();
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }  
+   
+   public static int[][] nbinomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0,j=0;
+     int[] temp = new int[Card.drawCards];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       while(i<Card.nTrials){
+        REXP exp = c.eval("rnbinom(1,"+Card.drawCards+",0.5)");
+        for(int k=0; k<exp.asIntegers().length; k++){
+            temp[k] = exp.asIntegers()[k];
+        }
+        while(j<Card.drawCards){
+            result[i][j] = temp[j];
+            j++;
+        }
+        j=0;
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }  
+   
+   public static int[][] multinomWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0,j=0;
+     int[] temp = new int[Card.drawCards];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       c.voidEval("deck<-c(1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13)");
+       while(i<Card.nTrials){
+        REXP exp = c.eval("sample(deck,"+Card.drawCards+",replace=TRUE)");
+        for(int k=0; k<exp.asIntegers().length; k++){
+            temp[k] = exp.asIntegers()[k];
+        }
+        while(j<Card.drawCards){
+            result[i][j] = temp[j];
+            j++;
+        }
+        j=0;
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }  
+   public static int[][] multinomWithoutReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0,j=0;
+     int[] temp = new int[Card.drawCards];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       c.voidEval("deck<-c(1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13,1,2,3,4,5,6,7,8,9,10,11,12,13)");
+       while(i<Card.nTrials){
+        REXP exp = c.eval("sample(deck,"+Card.drawCards+",replace=FALSE)");
+        for(int k=0; k<exp.asIntegers().length; k++){
+            temp[k] = exp.asIntegers()[k];
+        }
+        while(j<Card.drawCards){
+            result[i][j] = temp[j];
+            j++;
+        }
+        j=0;
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }
+   
  }  
