@@ -62,6 +62,8 @@ public class NSelection extends JFrame implements ActionListener{
                         //binomial
                         //result1 = Controller.RConnector.binomialWithReplacement();
                         //result2 = Controller.RConnector.binomialWithoutReplacement();
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = Controller.RConnector.withoutReplacement();
                     }
                     else if(Card.experiment == 1){
                         //negative binomial
@@ -78,7 +80,7 @@ public class NSelection extends JFrame implements ActionListener{
                         result1 = Controller.RConnector.withReplacement();
                         result2 = Controller.RConnector.withoutReplacement();
                     }
-                    SaveLoadController.saveLog(result1, result2);
+                    SaveLoadController.saveLog2DArray(result1, result2);
                 }catch(Exception err){
                     err.printStackTrace();
                 }

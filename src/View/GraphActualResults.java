@@ -60,7 +60,7 @@ public class GraphActualResults extends JFrame implements ActionListener{
                 try{
                     result1 = Controller.RConnector.withReplacement();
                     result2 = Controller.RConnector.withoutReplacement();
-                    SaveLoadController.saveLog(result1, result2);
+                    SaveLoadController.saveLog2DArray(result1, result2);
                 }catch(Exception err){
                     err.printStackTrace();
                 }
