@@ -65,6 +65,8 @@ static public synchronized JFrame getAnotherFrame(String frameName)
             case "GraphActualResults":
                 anotherFrame = new GraphActualResults();
                 break;
+            case "GraphActualIdealProb":
+                anotherFrame = new GraphActualIdealProb();
         }
         
     }
