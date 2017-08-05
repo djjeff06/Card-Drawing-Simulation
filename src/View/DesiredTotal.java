@@ -9,6 +9,7 @@ package View;
  *
  * @author msi
  */
+import Controller.SaveLoadController;
 import Model.Card;
 import javax.swing.*;
 import java.awt.*;
@@ -41,16 +42,16 @@ public class DesiredTotal extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
         if(e.getSource() == btnInput){
-            if(Integer.parseInt(input.getText().toString()) > 5 || Integer.parseInt(input.getText().toString()) < 1){
+            if(Integer.parseInt(input.getText().toString()) < 0 || input.getText().equals("")){
                 JOptionPane.showMessageDialog(this,
                     Card.drawCards,
                     "Wrong Input",JOptionPane.ERROR_MESSAGE);
             }
             
             else{
-                Card.nTrials = Integer.parseInt(input.getText().toString());
-                //do experiments and save in txt file
-                //FrameManager.getAnotherFrame("ExperimentSelection");
+                Card.desiredTotal = Integer.parseInt(input.getText().toString());
+                SaveLoadController.checkLog();
+                FrameManager.getAnotherFrame("IdealActualProbability");
             }
         }
         

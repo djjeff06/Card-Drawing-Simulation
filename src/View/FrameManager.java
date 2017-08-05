@@ -59,6 +59,12 @@ static public synchronized JFrame getAnotherFrame(String frameName)
             case "DesiredTotal":
                 anotherFrame = new DesiredTotal();
                 break;
+            case "IdealActualProbability":
+                anotherFrame = new IdealActualProbability();
+                break;
+            case "GraphActualResults":
+                anotherFrame = new GraphActualResults();
+                break;
         }
         
     }

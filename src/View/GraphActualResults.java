@@ -15,14 +15,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class NSelection extends JFrame implements ActionListener{
+public class GraphActualResults extends JFrame implements ActionListener{
     
     private JLabel lbl = new JLabel("Enter N trials (10 to 100000):");
     private JTextField input=new JTextField("");
     private JButton btnInput = new JButton("Enter");
     private JButton btnBack = new JButton("Back");
     
-    public NSelection(){
+    public GraphActualResults(){
         
         this.setTitle("N Selection");
         this.setSize(400,150);

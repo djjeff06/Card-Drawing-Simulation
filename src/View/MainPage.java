@@ -37,6 +37,13 @@ public class MainPage extends JFrame implements ActionListener{
         this.add(input);
         this.add(btnInput);
         
+        /*Card.desiredTotal = 0;
+        Card.drawCards = 0;
+        Card.dtWithRep = 0;
+        Card.dtWithoutRep = 0;
+        Card.experiment = 0;
+        Card.nTrials = 0;*/
+        
     }
     
     public void actionPerformed(ActionEvent e){
