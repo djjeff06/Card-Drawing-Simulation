@@ -54,6 +54,7 @@ public class IdealActualProbability extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
         if(e.getSource() == btnNext){
+            //run code to create plot
             FrameManager.getAnotherFrame("GraphActualResults");
         }
         

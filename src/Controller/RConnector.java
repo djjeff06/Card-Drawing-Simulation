@@ -155,6 +155,50 @@ import java.io.FileNotFoundException;
      c.close();  
      System.out.println("Session Closed");  
      return result;
+   }
+   
+   public static void createPlot1(int[][] result1,int[][] result2)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());
+       String temp = "";
+       int total = 0;
+       for(int i=0; i<result1.length; i++){
+           total = 0;
+           for(int j=0; j<result1[i].length; j++){
+               total += result1[i][j];
+           }
+           if(i==0)
+               temp = temp.concat(total+"");
+           else
+               temp = temp.concat(","+total);
+       }
+        c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+        c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/desiredtotalfrequency1.jpg',width=500,height=500)");
+        c.voidEval("barplot(c("+temp+"),y,main='Actual Results Possible Total Frequency(w/ Replacement)',xlab='Possible Totals',ylab='Frequency',las=1)");
+        c.voidEval("dev.off()");
+        temp = "";
+        for(int i=0; i<result2.length; i++){
+           total = 0;
+           for(int j=0; j<result2[i].length; j++){
+               total += result2[i][j];
+           }
+           if(i==0)
+               temp = temp.concat(total+"");
+           else
+               temp = temp.concat(","+total);
+       }
+        c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+        c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/desiredtotalfrequency2.jpg',width=500,height=500)");
+        c.voidEval("barplot(c("+temp+"),y,main='Actual Results Possible Total Frequency(w/o Replacement)',xlab='Possible Totals',ylab='Frequency',las=1)");
+        c.voidEval("dev.off()");
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
    }  
    
  }  

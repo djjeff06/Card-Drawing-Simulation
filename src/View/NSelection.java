@@ -81,6 +81,7 @@ public class NSelection extends JFrame implements ActionListener{
                         result2 = Controller.RConnector.withoutReplacement();
                     }
                     SaveLoadController.saveLog2DArray(result1, result2);
+                    RConnector.createPlot1(result1, result2);
                 }catch(Exception err){
                     err.printStackTrace();
                 }
