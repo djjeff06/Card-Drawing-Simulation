@@ -9,6 +9,7 @@ package View;
  *
  * @author msi
  */
+import Controller.RConnector;
 import Controller.SaveLoadController;
 import Model.Card;
 import javax.swing.*;
@@ -50,6 +51,50 @@ public class DesiredTotal extends JFrame implements ActionListener{
             
             else{
                 Card.desiredTotal = Integer.parseInt(input.getText().toString());
+                int[][] result1 = new int[Card.nTrials][Card.drawCards];
+                int[][] result2 = new int[Card.nTrials][Card.drawCards];
+                int[] result3 = new int[Card.nTrials];
+                int[] result4 = new int[Card.nTrials];
+                try{
+                    if(Card.experiment == 0){
+                        //binomial
+                        result1 = Controller.RConnector.binomialWithReplacement();
+                        result2 = Controller.RConnector.binomialWithoutReplacement();
+                        SaveLoadController.saveLog2DArray(result1, result2);
+                        RConnector.createPlot(result1, result2);
+                    }
+                    else if(Card.experiment == 1){
+                        //negative binomial
+                        result3 = Controller.RConnector.nbinomial();
+                        result4 = null;
+                        SaveLoadController.saveLog1DArray(result3, result4);
+                        RConnector.createPlot1D(result3, result4);
+                        
+                    }
+                    else if(Card.experiment == 2){
+                        //hypergeometric
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = Controller.RConnector.withoutReplacement();
+                        SaveLoadController.saveLog2DArray(result1, result2);
+                        RConnector.createPlot(result1, result2);
+                    }
+                    else if(Card.experiment == 3){
+                        //multinomial
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = Controller.RConnector.withoutReplacement();
+                        SaveLoadController.saveLog2DArray(result1, result2);
+                        RConnector.createPlot(result1, result2);
+                    }
+                    else{
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = Controller.RConnector.withoutReplacement();
+                        SaveLoadController.saveLog2DArray(result1, result2);
+                        RConnector.createPlot(result1, result2);
+                    }
+                    
+                }catch(Exception err){
+                    err.printStackTrace();
+                }
                 SaveLoadController.checkLog();
                 FrameManager.getAnotherFrame("IdealActualProbability");
             }

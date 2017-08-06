@@ -52,16 +52,21 @@ public class GraphActualResults extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
-        path = "plots/desiredtotalfrequency2.jpg";
-        try{
-            File file = new File(path);
-            BufferedImage image = ImageIO.read(file);
-            JLabel label = new JLabel(new ImageIcon(image));
-            label.setBounds(500,0,500,400);
-            label.setVisible(true);
-            this.add(label);
-        } catch(IOException e){
-            e.printStackTrace();
+        if(Card.experiment != 1){
+            path = "plots/desiredtotalfrequency2.jpg";
+            try{
+                File file = new File(path);
+                BufferedImage image = ImageIO.read(file);
+                JLabel label = new JLabel(new ImageIcon(image));
+                label.setBounds(500,0,500,400);
+                label.setVisible(true);
+                this.add(label);
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+        else{
+            this.setSize(550,500);
         }
         //this.setVisible(true);
         

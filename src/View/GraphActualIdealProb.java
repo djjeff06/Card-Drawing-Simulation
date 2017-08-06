@@ -65,28 +65,35 @@ public class GraphActualIdealProb extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
-        path = "plots/actualprobability2.jpg";
-        try{
-            File file = new File(path);
-            BufferedImage image = ImageIO.read(file);
-            JLabel label = new JLabel(new ImageIcon(image));
-            label.setBounds(0,400,500,400);
-            label.setVisible(true);
-            this.add(label);
-        } catch(IOException e){
-            e.printStackTrace();
+        if(Card.experiment != 1){
+            path = "plots/actualprobability2.jpg";
+            try{
+                File file = new File(path);
+                BufferedImage image = ImageIO.read(file);
+                JLabel label = new JLabel(new ImageIcon(image));
+                label.setBounds(0,400,500,400);
+                label.setVisible(true);
+                this.add(label);
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+
+            path = "plots/idealprobability2.jpg";
+            try{
+                File file = new File(path);
+                BufferedImage image = ImageIO.read(file);
+                JLabel label = new JLabel(new ImageIcon(image));
+                label.setBounds(500,400,500,400);
+                label.setVisible(true);
+                this.add(label);
+            } catch(IOException e){
+                e.printStackTrace();
+            }
         }
-        
-        path = "plots/idealprobability2.jpg";
-        try{
-            File file = new File(path);
-            BufferedImage image = ImageIO.read(file);
-            JLabel label = new JLabel(new ImageIcon(image));
-            label.setBounds(500,400,500,400);
-            label.setVisible(true);
-            this.add(label);
-        } catch(IOException e){
-            e.printStackTrace();
+        else{
+            btnInput.setBounds(110,420,70,30);
+            btnBack.setBounds(10,420,70,30);
+            this.setSize(1050,500);
         }
         //this.setVisible(true);
         

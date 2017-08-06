@@ -54,39 +54,6 @@ public class NSelection extends JFrame implements ActionListener{
             
             else{
                 Card.nTrials = Integer.parseInt(input.getText().toString());
-                //do experiments and save in txt file
-                int[][] result1 = new int[Card.nTrials][Card.drawCards];
-                int[][] result2 = new int[Card.nTrials][Card.drawCards];
-                try{
-                    if(Card.experiment == 0){
-                        //binomial
-                        result1 = Controller.RConnector.binomialWithReplacement();
-                        result2 = Controller.RConnector.binomialWithoutReplacement();
-                    }
-                    else if(Card.experiment == 1){
-                        //negative binomial
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
-                    }
-                    else if(Card.experiment == 2){
-                        //hypergeometric
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
-                    }
-                    else if(Card.experiment == 3){
-                        //multinomial
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
-                    }
-                    else{
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
-                    }
-                    SaveLoadController.saveLog2DArray(result1, result2);
-                    RConnector.createPlot(result1, result2);
-                }catch(Exception err){
-                    err.printStackTrace();
-                }
                 FrameManager.getAnotherFrame("DesiredTotal");
             }
         }

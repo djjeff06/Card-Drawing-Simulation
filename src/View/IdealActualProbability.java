@@ -43,11 +43,19 @@ public class IdealActualProbability extends JFrame implements ActionListener{
         this.setLayout(null);
         this.add(lbl1);
         this.add(lbl2);
-        this.add(lbl3);
         this.add(lbl4);
         this.add(lbl5);
-        this.add(lbl6);
         this.add(btnNext);
+        
+        if(Card.experiment != 1){
+            this.add(lbl3);
+            this.add(lbl6);
+        }
+        else{
+            lbl4.setBounds(10,80,400,30);
+            lbl5.setBounds(10,120,400,30);
+            btnNext.setBounds(10,160,70,30);
+        }
         
     }
     

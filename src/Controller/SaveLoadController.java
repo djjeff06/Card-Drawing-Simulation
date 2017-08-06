@@ -131,6 +131,9 @@ public class SaveLoadController {
         
         Card.dtWithRep = withRCount;
         Card.dtWithoutRep = withoutRCount;
+        
+        if(Card.experiment == 1)
+            Card.dtWithoutRep = -1;
                       
     }
     

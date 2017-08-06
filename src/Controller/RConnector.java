@@ -135,25 +135,17 @@ import java.io.FileNotFoundException;
      return result;
    }
    
-   public static int[][] nbinomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+   public static int[] nbinomial()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
-     int[][] result = new int[Card.nTrials][Card.drawCards];
-     int i=0,j=0;
-     int[] temp = new int[Card.drawCards];
+     int[] result = new int[Card.nTrials];
+     int i=0;
      if(c.isConnected()) {  
        System.out.println("Connected to RServe.");  
        org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
        System.out.println(x0.asString());  
        while(i<Card.nTrials){
         REXP exp = c.eval("rnbinom(1,"+Card.drawCards+",0.5)");
-        for(int k=0; k<exp.asIntegers().length; k++){
-            temp[k] = exp.asIntegers()[k];
-        }
-        while(j<Card.drawCards){
-            result[i][j] = temp[j];
-            j++;
-        }
-        j=0;
+        result[i] = exp.asInteger();
         i++;
        }
      } else {  
@@ -303,5 +295,118 @@ import java.io.FileNotFoundException;
      c.close();  
      System.out.println("Session Closed");  
    }  
+   
+   public static void createPlot1D(int[] result1,int[] result2)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());
+       String temp = "";
+       int total = 0;
+       for(int i=0; i<result1.length; i++){
+           total = result1[i];
+           if(i==0)
+               temp = temp.concat(total+"");
+           else
+               temp = temp.concat(","+total);
+       }
+        c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+        c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/desiredtotalfrequency1.jpg',width=500,height=400)");
+        c.voidEval("barplot(c("+temp+"),y,main='Actual Results Possible Total Frequency(w/ Replacement)',xlab='Possible Totals',ylab='Frequency',las=1)");
+        c.voidEval("dev.off()");
+        if(Card.experiment != 1){
+            temp = "";
+            for(int i=0; i<result2.length; i++){
+               total = result2[i];
+               if(i==0)
+                   temp = temp.concat(total+"");
+               else
+                   temp = temp.concat(","+total);
+           }
+            c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+            c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/desiredtotalfrequency2.jpg',width=500,height=400)");
+            c.voidEval("barplot(c("+temp+"),y,main='Actual Results Possible Total Frequency(w/o Replacement)',xlab='Possible Totals',ylab='Frequency',las=1)");
+            c.voidEval("dev.off()");
+        }
+        temp = "";
+        double d;
+        for(int i=0; i<result1.length; i++){
+           total = result1[i];
+           d = total/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = (double)total/(Card.drawCards);
+           else if(Card.experiment == 1)
+               d = (double)total/26;
+           if(i==0)
+               temp = temp.concat(d+"");
+           else
+               temp = temp.concat(","+d);
+       }
+         System.out.println(temp);
+        c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+        c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability1.jpg',width=500,height=400)");
+        c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/ Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
+        c.voidEval("dev.off()");
+        if(Card.experiment != 1){
+            temp = "";
+            for(int i=0; i<result2.length; i++){
+               total = result2[i];
+               d = total/(Card.drawCards*13);
+               if(Card.experiment == 0)
+                   d = (double)total/(Card.drawCards);
+               else if(Card.experiment == 1)
+               d = (double)total/26;
+               if(i==0)
+                   temp = temp.concat(d+"");
+               else
+                   temp = temp.concat(","+d);
+           }
+            System.out.println(temp);
+            c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+            c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability2.jpg',width=500,height=400)");
+            c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/o Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
+            c.voidEval("dev.off()");
+        }
+        temp = "";
+        for(int i=0; i<result1.length; i++){
+           d = Card.desiredTotal/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = (double)Card.desiredTotal/(Card.drawCards);
+           else if(Card.experiment == 1)
+               d = (double)Card.desiredTotal/26;
+           if(i==0)
+               temp = temp.concat(d+"");
+           else
+               temp = temp.concat(","+d);
+       }
+        c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+        c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/idealprobability1.jpg',width=500,height=400)");
+        c.voidEval("barplot(c("+temp+"),y,main='Ideal Probability Distribution of Possible Totals(w/ Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
+        c.voidEval("dev.off()");
+        if(Card.experiment != 1){
+            temp = "";
+            for(int i=0; i<result2.length; i++){
+               d = Card.desiredTotal/(Card.drawCards*13);
+               if(Card.experiment == 0)
+                   d = (double)Card.desiredTotal/(Card.drawCards);
+               else if(Card.experiment == 1)
+               d = (double)Card.desiredTotal/26;
+               if(i==0)
+                   temp = temp.concat(d+"");
+               else
+                   temp = temp.concat(","+d);
+           }
+            c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
+            c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/idealprobability2.jpg',width=500,height=400)");
+            c.voidEval("barplot(c("+temp+"),y,main='Ideal Probability Distribution of Possible Totals(w/o Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
+            c.voidEval("dev.off()");
+        }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+   }
    
  }  
