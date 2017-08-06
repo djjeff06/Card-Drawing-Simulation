@@ -77,19 +77,21 @@ import java.io.FileNotFoundException;
      return result;
    }  
    
-   public static int[] binomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+   public static int[][] binomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
-     int[] result = new int[Card.nTrials];
+     int[][] result = new int[Card.nTrials][Card.drawCards];
      int i=0,j=0;
-     int[] temp = new int[Card.drawCards];
      if(c.isConnected()) {  
        System.out.println("Connected to RServe.");  
        org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
        System.out.println(x0.asString());  
+       REXP exp = null;
        while(i<Card.nTrials){
-        REXP exp = c.eval("rbinom(1,"+Card.drawCards+",0.5)");
-        result[i] = exp.asInteger();
-        i++;
+           for(int k =0; k<Card.drawCards; k++){
+               exp = c.eval("rbinom(1,1,0.5)");
+               result[i][k] = exp.asInteger();
+           }
+           i++;
        }
      } else {  
        System.out.println("Rserve could not connect");  
@@ -98,6 +100,40 @@ import java.io.FileNotFoundException;
      System.out.println("Session Closed");  
      return result;
    }  
+   
+   public static int[][] binomialWithoutReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0;
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       REXP exp = null;
+       int deck =52, red = 26;
+       while(i<Card.nTrials){
+           for(int k =0; k<Card.drawCards; k++){
+               if(k==0)
+                exp = c.eval("rbinom(1,1,0.5)");
+               else{
+                   exp = c.eval("rbinom(1,1,"+red+"/"+deck+")");
+                   if(exp.asInteger() == 0)
+                       red--;
+                   deck--;
+               }
+               result[i][k] = exp.asInteger();
+           }
+           i++;
+           red = 26;
+           deck = 52;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }
    
    public static int[][] nbinomialWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
@@ -202,6 +238,8 @@ import java.io.FileNotFoundException;
                total += result1[i][j];
            }
            d = total/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
@@ -218,6 +256,8 @@ import java.io.FileNotFoundException;
                total += result2[i][j];
            }
            d = total/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
@@ -230,6 +270,8 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result1.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
@@ -242,6 +284,8 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result2.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
+           if(Card.experiment == 0)
+               d = total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else

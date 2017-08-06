@@ -52,7 +52,9 @@ public class Card {
     }
     
     public static double computeIdealProb(){
-        return (((double)1)/(((double)drawCards)*((double)13)));
+        if(experiment == 0)
+            return (((double)desiredTotal)/(((double)drawCards)));
+        return (((double)desiredTotal)/(((double)drawCards)*((double)13)));
     }
     
     public static double computeActualProbWithRep(){
