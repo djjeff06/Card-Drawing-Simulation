@@ -73,8 +73,8 @@ public class DesiredTotal extends JFrame implements ActionListener{
                     }
                     else if(Card.experiment == 2){
                         //hypergeometric
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
+                        result1 = Controller.RConnector.hyperWithReplacement();
+                        result2 = Controller.RConnector.hyperWithoutReplacement();
                         SaveLoadController.saveLog2DArray(result1, result2);
                         RConnector.createPlot(result1, result2);
                     }

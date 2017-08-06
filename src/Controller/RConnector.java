@@ -156,6 +156,65 @@ import java.io.FileNotFoundException;
      return result;
    }  
    
+   public static int[][] hyperWithReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0,j=0;
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       REXP exp = null;
+       while(i<Card.nTrials){
+           for(int k =0; k<Card.drawCards; k++){
+               exp = c.eval("rhyper(1,26,26,1)");
+               result[i][k] = exp.asInteger();
+           }
+           i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }  
+   
+   public static int[][] hyperWithoutReplacement()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int[][] result = new int[Card.nTrials][Card.drawCards];
+     int i=0;
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       REXP exp = null;
+       int red = 26, black = 26;
+       while(i<Card.nTrials){
+           for(int k =0; k<Card.drawCards; k++){
+               if(k==0)
+                exp = c.eval("rhyper(1,26,26,1)");
+               else{
+                   exp = c.eval("rhyper(1,"+red+","+black+",1)");
+                   if(exp.asInteger() == 0)
+                       red--;
+                   else
+                       black--;
+               }
+               result[i][k] = exp.asInteger();
+           }
+           i++;
+           red = 26;
+           black = 26;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }
+   
    public static int[][] multinom()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
      int[][] result = new int[Card.nTrials][Card.drawCards];
@@ -230,7 +289,7 @@ import java.io.FileNotFoundException;
                total += result1[i][j];
            }
            d = total/(Card.drawCards*13);
-           if(Card.experiment == 0)
+           if(Card.experiment == 0 || Card.experiment == 2)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -249,7 +308,7 @@ import java.io.FileNotFoundException;
                total += result2[i][j];
            }
            d = total/(Card.drawCards*13);
-           if(Card.experiment == 0)
+           if(Card.experiment == 0 || Card.experiment == 2)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -264,7 +323,7 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result1.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
-           if(Card.experiment == 0)
+           if(Card.experiment == 0 || Card.experiment == 2)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -278,7 +337,7 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result2.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
-           if(Card.experiment == 0)
+           if(Card.experiment == 0 || Card.experiment == 2)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
