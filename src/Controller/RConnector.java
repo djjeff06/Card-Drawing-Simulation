@@ -239,12 +239,13 @@ import java.io.FileNotFoundException;
            }
            d = total/(Card.drawCards*13);
            if(Card.experiment == 0)
-               d = total/(Card.drawCards);
+               d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
                temp = temp.concat(","+d);
        }
+         System.out.println(temp);
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability1.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/ Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
@@ -257,12 +258,13 @@ import java.io.FileNotFoundException;
            }
            d = total/(Card.drawCards*13);
            if(Card.experiment == 0)
-               d = total/(Card.drawCards);
+               d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
                temp = temp.concat(","+d);
        }
+        System.out.println(temp);
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability2.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/o Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
@@ -271,7 +273,7 @@ import java.io.FileNotFoundException;
         for(int i=0; i<result1.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
            if(Card.experiment == 0)
-               d = total/(Card.drawCards);
+               d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
@@ -285,7 +287,7 @@ import java.io.FileNotFoundException;
         for(int i=0; i<result2.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
            if(Card.experiment == 0)
-               d = total/(Card.drawCards);
+               d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
