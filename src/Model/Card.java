@@ -17,6 +17,7 @@ public class Card {
     public static int desiredTotal = 0;
     public static int dtWithRep = 0;
     public static int dtWithoutRep = 0;
+    public static int multinomType = 0;
     private String name;
     private int value;
     private int suit;//0-clover, 1-spade, 2-heart, 3-diamond

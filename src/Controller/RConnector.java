@@ -215,25 +215,19 @@ import java.io.FileNotFoundException;
      return result;
    }
    
-   public static int[][] multinom()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+   public static int[][] multinomWRType()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
-     int[][] result = new int[Card.nTrials][Card.drawCards];
-     int i=0,j=0;
-     int[] temp = new int[Card.drawCards];
+     int i=0;
+     int[][] temp = new int[Card.nTrials][13];
      if(c.isConnected()) {  
        System.out.println("Connected to RServe.");  
        org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
        System.out.println(x0.asString());  
        while(i<Card.nTrials){
-        REXP exp  = c.eval("rmultinom(1,14,prob=c(4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52))");
+        REXP exp  = c.eval("rmultinom(1,"+Card.drawCards+",prob=c(4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52,4/52))");
         for(int k=0; k<exp.asIntegers().length; k++){
-            temp[k] = exp.asIntegers()[k];
+            temp[i][k] = exp.asIntegers()[k];
         }
-        while(j<Card.drawCards){
-            result[i][j] = temp[j];
-            j++;
-        }
-        j=0;
         i++;
        }
      } else {  
@@ -241,7 +235,147 @@ import java.io.FileNotFoundException;
      }  
      c.close();  
      System.out.println("Session Closed");  
-     return result;
+     return temp;
+   }
+   
+   public static int[][] multinomWORType()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int i=0;
+     int[][] temp = new int[Card.nTrials][13];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       int ace=4, two=4, three=4, four=4, five=4, six=4, seven=4, eight=4, nine=4, ten=4, jack=4, queen=4, king=4, deck=52;
+       while(i<Card.nTrials){
+           for(int j=0; j<Card.drawCards; j++){
+               REXP exp  = c.eval("rmultinom(1,1,prob=c("+ace+"/"+deck+","+two+"/"+deck+","+three+"/"+deck+","+four+"/"+deck+","
+                       +five+"/"+deck+","+six+"/"+deck+","+seven+"/"+deck+","+eight+"/"+deck+","+nine+"/"+deck+","+ten+"/"+deck+","+jack+"/"+deck+","
+                       +queen+"/"+deck+","+king+"/"+deck+"))");
+               deck--;
+               for(int k=0; k<exp.asIntegers().length; k++){
+                    if(exp.asIntegers()[k]==1){
+                        temp[i][k] = temp[i][k] + exp.asIntegers()[k];
+                        switch(k){
+                            case 0:
+                                ace--;
+                                break;
+                            case 1:
+                                two--;
+                                break;
+                            case 2:
+                                three--;
+                                break;
+                            case 3:
+                                four--;
+                                break;
+                            case 4:
+                                five--;
+                                break;
+                            case 5:
+                                six--;
+                                break;
+                            case 6:
+                                seven--;
+                                break;
+                            case 7:
+                                eight--;
+                                break;
+                            case 8:
+                                nine--;
+                                break; 
+                            case 9:
+                                ten--;
+                                break;
+                            case 10:
+                                jack--;
+                                break; 
+                            case 11:
+                                queen--;
+                                break;
+                            case 12:
+                                king--;
+                                break;
+                        }
+                    }
+                }
+           }
+           
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return temp;
+   }
+   
+   public static int[][] multinomWRSuit()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int i=0;
+     int[][] temp = new int[Card.nTrials][4];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       while(i<Card.nTrials){
+        REXP exp  = c.eval("rmultinom(1,"+Card.drawCards+",prob=c(13/52,13/52,13/52,13/52))");
+        for(int k=0; k<exp.asIntegers().length; k++){
+            temp[i][k] = exp.asIntegers()[k];
+        }
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return temp;
+   }
+   
+   public static int[][] multinomWORSuit()throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     int i=0;
+     int[][] temp = new int[Card.nTrials][4];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString());  
+       int diamond=13, heart=13, spade=13, clover=13, deck=52;
+       while(i<Card.nTrials){
+           for(int j=0; j<Card.drawCards; j++){
+               REXP exp  = c.eval("rmultinom(1,1,prob=c("+diamond+"/"+deck+","+heart+"/"+deck+","+spade+"/"+deck+","+clover+"/"+deck+"))");
+               deck--;
+               for(int k=0; k<exp.asIntegers().length; k++){
+                    if(exp.asIntegers()[k]==1){
+                        temp[i][k] = temp[i][k] + exp.asIntegers()[k];
+                        switch(k){
+                            case 0:
+                                diamond--;
+                                break;
+                            case 1:
+                                heart--;
+                                break;
+                            case 2:
+                                spade--;
+                                break;
+                            case 3:
+                                clover--;
+                                break;
+                        }
+                    }
+                }
+           }
+           
+        i++;
+       }
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return temp;
    }
    
    public static void createPlot(int[][] result1,int[][] result2)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
@@ -289,7 +423,7 @@ import java.io.FileNotFoundException;
                total += result1[i][j];
            }
            d = total/(Card.drawCards*13);
-           if(Card.experiment == 0 || Card.experiment == 2)
+           if(Card.experiment == 0 || Card.experiment == 2 || Card.experiment == 3)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -308,14 +442,13 @@ import java.io.FileNotFoundException;
                total += result2[i][j];
            }
            d = total/(Card.drawCards*13);
-           if(Card.experiment == 0 || Card.experiment == 2)
+           if(Card.experiment == 0 || Card.experiment == 2 || Card.experiment == 3)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
            else
                temp = temp.concat(","+d);
        }
-        System.out.println(temp);
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability2.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/o Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
@@ -323,7 +456,7 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result1.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
-           if(Card.experiment == 0 || Card.experiment == 2)
+           if(Card.experiment == 0 || Card.experiment == 2 || Card.experiment == 3)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -337,7 +470,7 @@ import java.io.FileNotFoundException;
         temp = "";
         for(int i=0; i<result2.length; i++){
            d = Card.desiredTotal/(Card.drawCards*13);
-           if(Card.experiment == 0 || Card.experiment == 2)
+           if(Card.experiment == 0 || Card.experiment == 2 || Card.experiment == 3)
                d = (double)total/(Card.drawCards);
            if(i==0)
                temp = temp.concat(d+"");
@@ -402,7 +535,6 @@ import java.io.FileNotFoundException;
            else
                temp = temp.concat(","+d);
        }
-         System.out.println(temp);
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability1.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/ Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");

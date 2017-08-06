@@ -67,6 +67,10 @@ static public synchronized JFrame getAnotherFrame(String frameName)
                 break;
             case "GraphActualIdealProb":
                 anotherFrame = new GraphActualIdealProb();
+                break;
+            case "MultinomSelection":
+                anotherFrame = new MultinomSelection();
+                break;
         }
         
     }

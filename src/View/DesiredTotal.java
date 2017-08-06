@@ -24,7 +24,7 @@ public class DesiredTotal extends JFrame implements ActionListener{
     
     public DesiredTotal(){
         
-        this.setTitle("DesiredTotal");
+        this.setTitle("Desired Total");
         this.setSize(400,150);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -80,8 +80,14 @@ public class DesiredTotal extends JFrame implements ActionListener{
                     }
                     else if(Card.experiment == 3){
                         //multinomial
-                        result1 = Controller.RConnector.withReplacement();
-                        result2 = Controller.RConnector.withoutReplacement();
+                        if(Card.multinomType == 0){
+                            result1 = Controller.RConnector.multinomWRType();
+                            result2 = Controller.RConnector.multinomWORType();
+                        }
+                        else{
+                            result1 = Controller.RConnector.multinomWRSuit();
+                            result2 = Controller.RConnector.multinomWORSuit();
+                        }
                         SaveLoadController.saveLog2DArray(result1, result2);
                         RConnector.createPlot(result1, result2);
                     }

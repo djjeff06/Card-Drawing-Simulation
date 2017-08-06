@@ -21,13 +21,14 @@ public class ExperimentSelection extends JFrame implements ActionListener{
     private JButton btn2 = new JButton("Negative Binomial Experiment");
     private JButton btn3 = new JButton("Hypergeometric Experiment");
     private JButton btn4 = new JButton("Multinomial Experiment");
+    private JButton btn5 = new JButton("Sample from Population");
     private JButton btnBack = new JButton("Back");
     private JFileChooser fc=new JFileChooser();
     
     public ExperimentSelection(){
         
         this.setTitle("Experiment Selection");
-        this.setSize(500,220);
+        this.setSize(500,250);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setVisible(true);
         
@@ -36,11 +37,13 @@ public class ExperimentSelection extends JFrame implements ActionListener{
         btn2.setBounds(230,40,210,30);
         btn3.setBounds(10,80,210,30);
         btn4.setBounds(230,80,210,30);
-        btnBack.setBounds(10,130,70,30);
+        btn5.setBounds(10,120,210,30);
+        btnBack.setBounds(10,170,70,30);
         btn1.addActionListener(this);
         btn2.addActionListener(this);
         btn3.addActionListener(this);
         btn4.addActionListener(this);
+        btn5.addActionListener(this);
         btnBack.addActionListener(this);
         this.setLayout(null);
         this.add(lbl);
@@ -48,6 +51,7 @@ public class ExperimentSelection extends JFrame implements ActionListener{
         this.add(btn2);
         this.add(btn3);
         this.add(btn4);
+        this.add(btn5);
         this.add(btnBack);
         
     }
@@ -71,6 +75,11 @@ public class ExperimentSelection extends JFrame implements ActionListener{
         
         else if(e.getSource() == btn4){
             Card.experiment = 3;
+            FrameManager.getAnotherFrame("MultinomSelection");
+        }
+        
+        else if(e.getSource() == btn5){
+            Card.experiment = 4;
             FrameManager.getAnotherFrame("NSelection");
         }
         
