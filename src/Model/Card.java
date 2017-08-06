@@ -56,11 +56,11 @@ public class Card {
     }
     
     public static double computeActualProbWithRep(){
-        return ((double)dtWithRep)/(drawCards*13);
+        return ((double)dtWithRep)/(nTrials);
     }
     
     public static double computeActualProbWithoutRep(){
-        return ((double)dtWithoutRep)/(drawCards*13);
+        return ((double)dtWithoutRep)/(nTrials);
     }
     
 }
