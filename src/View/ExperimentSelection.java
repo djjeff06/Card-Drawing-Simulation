@@ -13,6 +13,10 @@ import Model.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class ExperimentSelection extends JFrame implements ActionListener{
     
@@ -28,9 +32,8 @@ public class ExperimentSelection extends JFrame implements ActionListener{
     public ExperimentSelection(){
         
         this.setTitle("Experiment Selection");
-        this.setSize(500,250);
+        this.setSize(500,450);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         lbl.setBounds(10,0,250,30);
         btn1.setBounds(10,40,210,30);
@@ -53,6 +56,20 @@ public class ExperimentSelection extends JFrame implements ActionListener{
         this.add(btn4);
         this.add(btn5);
         this.add(btnBack);
+        
+        String path = "animations/experiment.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,500,430);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     

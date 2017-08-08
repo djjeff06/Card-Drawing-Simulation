@@ -15,6 +15,10 @@ import Model.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class DesiredTotal extends JFrame implements ActionListener{
     
@@ -25,9 +29,8 @@ public class DesiredTotal extends JFrame implements ActionListener{
     public DesiredTotal(){
         
         this.setTitle("Desired Total");
-        this.setSize(400,150);
+        this.setSize(500,290);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         lbl.setBounds(10,0,180,30);
         input.setBounds(200, 5, 40, 20);
@@ -37,6 +40,20 @@ public class DesiredTotal extends JFrame implements ActionListener{
         this.add(lbl);
         this.add(input);
         this.add(btnInput);
+        
+        String path = "animations/football.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,500,281);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     

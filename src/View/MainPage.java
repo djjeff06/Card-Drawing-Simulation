@@ -12,8 +12,12 @@ package View;
 
 import Model.Card;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 public class MainPage extends JFrame implements ActionListener{
     
@@ -24,9 +28,8 @@ public class MainPage extends JFrame implements ActionListener{
     public MainPage(){
         
         this.setTitle("Main Page");
-        this.setSize(500,150);
+        this.setSize(500,350);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         label1.setBounds(10,0,250,30);
         input.setBounds(270, 5, 40, 20);
@@ -43,6 +46,20 @@ public class MainPage extends JFrame implements ActionListener{
         Card.dtWithoutRep = 0;
         Card.experiment = 0;
         Card.nTrials = 0;
+        
+        String path = "animations/playing-cards.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,500,333);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     

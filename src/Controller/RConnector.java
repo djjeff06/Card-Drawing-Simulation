@@ -396,6 +396,7 @@ import java.io.FileNotFoundException;
            else
                temp = temp.concat(","+total);
        }
+       
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/desiredtotalfrequency1.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Results Possible Total Frequency(w/ Replacement)',xlab='Possible Totals',ylab='Frequency',las=1)");
@@ -430,7 +431,6 @@ import java.io.FileNotFoundException;
            else
                temp = temp.concat(","+d);
        }
-         System.out.println(temp);
         c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
         c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability1.jpg',width=500,height=400)");
         c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/ Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");
@@ -553,7 +553,6 @@ import java.io.FileNotFoundException;
                else
                    temp = temp.concat(","+d);
            }
-            System.out.println(temp);
             c.voidEval("y = seq(0,"+(Card.nTrials-1)+",1)");
             c.voidEval("jpeg('NetBeansProjects/MODESTAMC02/plots/actualprobability2.jpg',width=500,height=400)");
             c.voidEval("barplot(c("+temp+"),y,main='Actual Probability Distribution of Possible Totals(w/o Replacement)',xlab='Possible Totals',ylab='Probability',las=1)");

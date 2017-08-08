@@ -14,6 +14,10 @@ import Model.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class IdealActualProbability extends JFrame implements ActionListener{
     
@@ -28,9 +32,8 @@ public class IdealActualProbability extends JFrame implements ActionListener{
     public IdealActualProbability(){
         
         this.setTitle("Ideal and Actual Probability");
-        this.setSize(450,350);
+        this.setSize(500,315);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         lbl1.setBounds(10,0,400,30);
         lbl2.setBounds(10,40,400,30);
@@ -56,6 +59,20 @@ public class IdealActualProbability extends JFrame implements ActionListener{
             lbl5.setBounds(10,120,400,30);
             btnNext.setBounds(10,160,70,30);
         }
+        
+        String path = "animations/beach.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,500,281);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     

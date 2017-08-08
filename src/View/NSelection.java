@@ -14,6 +14,10 @@ import Controller.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class NSelection extends JFrame implements ActionListener{
     
@@ -25,9 +29,8 @@ public class NSelection extends JFrame implements ActionListener{
     public NSelection(){
         
         this.setTitle("N Selection");
-        this.setSize(400,150);
+        this.setSize(500,281);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         lbl.setBounds(10,0,160,30);
         input.setBounds(180, 5, 40, 20);
@@ -40,6 +43,20 @@ public class NSelection extends JFrame implements ActionListener{
         this.add(input);
         this.add(btnInput);
         this.add(btnBack);
+        
+        String path = "animations/khabilities.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,480,272);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     
