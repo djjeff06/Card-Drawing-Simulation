@@ -87,8 +87,10 @@ public class SaveLoadController {
         
     }
     
-    public static void checkLog(){
+    public static int[] checkLog(){
         
+        int[] result = new int[Card.nTrials];
+        int count = 0;
         int withRCount = 0;
         int withoutRCount = 0;
         int sum = 0;
@@ -110,6 +112,8 @@ public class SaveLoadController {
                     for(int i=0; i<temp.length; i++){
                         sum += Integer.parseInt(temp[i]);
                     }
+                    result[count] = sum;
+                    count++;
                     if(sum == Card.desiredTotal){
                         if(withReplacement)
                             withRCount++;
@@ -134,6 +138,8 @@ public class SaveLoadController {
         
         if(Card.experiment == 1)
             Card.dtWithoutRep = -1;
+        
+        return result;
                       
     }
     

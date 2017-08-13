@@ -13,6 +13,10 @@ import Model.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class MultinomSelection extends JFrame implements ActionListener{
     
@@ -25,9 +29,8 @@ public class MultinomSelection extends JFrame implements ActionListener{
     public MultinomSelection(){
         
         this.setTitle("Multinom Selection");
-        this.setSize(360,200);
+        this.setSize(490,272);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        this.setVisible(true);
         
         lbl.setBounds(10,0,250,30);
         btn1.setBounds(10,40,300,30);
@@ -41,6 +44,20 @@ public class MultinomSelection extends JFrame implements ActionListener{
         this.add(btn1);
         this.add(btn2);
         this.add(btnBack);
+        
+        String path = "animations/khabilities.jpg";
+        try{
+            File file = new File(path);
+            BufferedImage image = ImageIO.read(file);
+            JLabel label = new JLabel(new ImageIcon(image));
+            label.setBounds(0,0,480,272);
+            label.setVisible(true);
+            this.add(label);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        this.setVisible(true);
         
     }
     

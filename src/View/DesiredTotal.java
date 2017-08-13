@@ -41,7 +41,7 @@ public class DesiredTotal extends JFrame implements ActionListener{
         this.add(input);
         this.add(btnInput);
         
-        String path = "animations/football.jpg";
+        String path = "animations/khabilities.jpg";
         try{
             File file = new File(path);
             BufferedImage image = ImageIO.read(file);
@@ -72,20 +72,27 @@ public class DesiredTotal extends JFrame implements ActionListener{
                 int[][] result2 = new int[Card.nTrials][Card.drawCards];
                 int[] result3 = new int[Card.nTrials];
                 int[] result4 = new int[Card.nTrials];
+                int[] resultSum = new int[Card.nTrials];
                 try{
                     if(Card.experiment == 0){
                         //binomial
-                        result1 = Controller.RConnector.binomialWithReplacement();
-                        result2 = Controller.RConnector.binomialWithoutReplacement();
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = null;
                         SaveLoadController.saveLog2DArray(result1, result2);
+                        resultSum = SaveLoadController.checkLog();
+                        Card.idealProbability = Card.computeIdealProb();
+                        Card.actualProbability = Card.computeActualProbWithRep(resultSum);
                         RConnector.createPlot(result1, result2);
                     }
                     else if(Card.experiment == 1){
                         //negative binomial
-                        result3 = Controller.RConnector.nbinomial();
-                        result4 = null;
-                        SaveLoadController.saveLog1DArray(result3, result4);
-                        RConnector.createPlot1D(result3, result4);
+                        result1 = Controller.RConnector.withReplacement();
+                        result2 = null;
+                        SaveLoadController.saveLog2DArray(result1, result2);
+                        resultSum = SaveLoadController.checkLog();
+                        Card.idealProbability = Card.computeIdealProb();
+                        Card.actualProbability = Card.computeActualProbWithRep(resultSum);
+                        RConnector.createPlot(result1, result2);
                         
                     }
                     else if(Card.experiment == 2){
@@ -118,7 +125,6 @@ public class DesiredTotal extends JFrame implements ActionListener{
                 }catch(Exception err){
                     err.printStackTrace();
                 }
-                SaveLoadController.checkLog();
                 FrameManager.getAnotherFrame("IdealActualProbability");
             }
         }

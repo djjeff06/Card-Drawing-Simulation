@@ -25,14 +25,14 @@ public class IdealActualProbability extends JFrame implements ActionListener{
     private JLabel lbl2 = new JLabel("Desired Total Occurence in With Replacement: "+Card.dtWithRep);
     private JLabel lbl3 = new JLabel("Desired Total Occurence in Without Replacement: "+Card.dtWithoutRep);
     private JLabel lbl4 = new JLabel("Ideal Probability: "+Card.computeIdealProb());
-    private JLabel lbl5 = new JLabel("Actual Probability (With Replacement): "+Card.computeActualProbWithRep());
+    private JLabel lbl5 = new JLabel("Actual Probability (With Replacement): "+Card.actualProbability);
     private JLabel lbl6 = new JLabel("Actual Probability (Without Replacement): "+Card.computeActualProbWithoutRep());
     private JButton btnNext = new JButton("Next");
     
     public IdealActualProbability(){
         
         this.setTitle("Ideal and Actual Probability");
-        this.setSize(500,315);
+        this.setSize(490,315);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         
         lbl1.setBounds(10,0,400,30);
@@ -50,7 +50,7 @@ public class IdealActualProbability extends JFrame implements ActionListener{
         this.add(lbl5);
         this.add(btnNext);
         
-        if(Card.experiment != 1){
+        if(Card.experiment!=0 && Card.experiment != 1){
             this.add(lbl3);
             this.add(lbl6);
         }
@@ -60,12 +60,12 @@ public class IdealActualProbability extends JFrame implements ActionListener{
             btnNext.setBounds(10,160,70,30);
         }
         
-        String path = "animations/beach.jpg";
+        String path = "animations/khabilities.jpg";
         try{
             File file = new File(path);
             BufferedImage image = ImageIO.read(file);
             JLabel label = new JLabel(new ImageIcon(image));
-            label.setBounds(0,0,500,281);
+            label.setBounds(0,0,480,272);
             label.setVisible(true);
             this.add(label);
         } catch(IOException e){

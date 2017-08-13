@@ -52,7 +52,7 @@ public class GraphActualResults extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
-        if(Card.experiment != 1){
+        if(Card.experiment!=0 && Card.experiment != 1){
             path = "plots/desiredtotalfrequency2.jpg";
             try{
                 File file = new File(path);

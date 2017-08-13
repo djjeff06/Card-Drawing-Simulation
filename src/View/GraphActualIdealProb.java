@@ -65,7 +65,7 @@ public class GraphActualIdealProb extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
-        if(Card.experiment != 1){
+        if(Card.experiment!=0 && Card.experiment != 1){
             path = "plots/actualprobability2.jpg";
             try{
                 File file = new File(path);
