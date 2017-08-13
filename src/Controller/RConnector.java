@@ -50,7 +50,7 @@ import java.io.FileNotFoundException;
        if(Card.experiment == 0)
         exp = c.eval("dbinom("+Math.round(prob*Card.nTrials)+","+Card.nTrials+","+prob+")");
        else
-           exp = c.eval("dnbinom("+(Card.nTrials-Card.dtWithRep)+","+Card.dtWithRep+","+prob+")");
+           exp = c.eval("dnbinom("+(Card.nTrials-Math.round(prob*Card.nTrials))+","+Math.round(prob*Card.nTrials)+","+prob+")");
        result = exp.asDouble();
      } else {  
        System.out.println("Rserve could not connect");  
@@ -60,7 +60,28 @@ import java.io.FileNotFoundException;
      return result;
    }  
    
-   public static double computeActualProb(int success, int failure, double prob)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+   public static double computeActualProbBinom(double prob)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
+     RConnection c = new RConnection("localhost", 6311);  
+     double result = 0.0;
+     int[] temp = new int[Card.drawCards];
+     if(c.isConnected()) {  
+       System.out.println("Connected to RServe.");  
+       org.rosuda.REngine.REXP x0 = c.eval("R.version.string");  
+       System.out.println(x0.asString()); 
+       REXP exp = null;
+         System.out.println(Card.idealProbability);
+         System.out.println(Math.round(Card.idealProbability*Card.nTrials));
+        exp = c.eval("dbinom("+Card.dtWithRep+","+Card.nTrials+","+prob+")");
+       result = exp.asDouble();
+     } else {  
+       System.out.println("Rserve could not connect");  
+     }  
+     c.close();  
+     System.out.println("Session Closed");  
+     return result;
+   }
+   
+   public static double computeActualProb(double prob)throws RserveException, REXPMismatchException, FileNotFoundException, IOException {  
      RConnection c = new RConnection("localhost", 6311);  
      double result = 0.0;
      int[] temp = new int[Card.drawCards];
@@ -74,7 +95,7 @@ import java.io.FileNotFoundException;
        if(Card.experiment == 0)
         exp = c.eval("dbinom("+Card.dtWithRep+","+Card.nTrials+","+prob+")");
        else
-           exp = c.eval("dnbinom("+failure+","+success+","+prob+")");
+           exp = c.eval("dnbinom("+(Card.nTrials-Card.dtWithRep)+","+Card.dtWithRep+","+prob+")");
        result = exp.asDouble();
      } else {  
        System.out.println("Rserve could not connect");  

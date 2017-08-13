@@ -22,6 +22,7 @@ public class Card {
     public static int multinomType = 0;
     public static double idealProbability = 0.0;
     public static double actualProbability = 0.0;
+    public static double temp = 0.0;
     private String name;
     private int value;
     private int suit;//0-clover, 1-spade, 2-heart, 3-diamond
@@ -427,6 +428,8 @@ public class Card {
                 }
                 break;
         }
+        temp = numerator/denominator;
+        System.out.println(temp);
         try{
             idealProbability = RConnector.computeIdealProb(numerator/denominator);
         }catch(Exception e){
@@ -440,7 +443,9 @@ public class Card {
         
         if(experiment == 0)
             return ((double)dtWithRep)/(nTrials);
-        int success = 0;
+        /*else
+            return ((double)1-((double)(nTrials-dtWithRep)/nTrials));*/
+        /*int success = 0;
         int failure = 0;
         for(int i=0; i<resultSum.length; i++){
             if(resultSum[i] == desiredTotal && success<Card.dtWithRep){
@@ -448,9 +453,9 @@ public class Card {
             }
             else if(success<Card.dtWithRep)
                 failure++;
-        }
+        }*/
         try{
-            return RConnector.computeActualProb(success, failure, idealProbability);
+            return RConnector.computeActualProb(temp);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -458,7 +463,7 @@ public class Card {
     }
     
     public static double computeActualProbWithoutRep(){
-        return ((double)dtWithoutRep)/(nTrials);
+        return ((double)1-((double)dtWithoutRep)/(nTrials));
     }
     
 }
